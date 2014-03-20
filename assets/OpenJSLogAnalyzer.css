@@ -118,10 +118,18 @@
     color: #0000ff;
 }
 
+.loganalyzer .boolean {
+    color: #ff7700;
+}
+
 .loganalyzer .key {
     color: #334D5C;
 }
 
-.loganalyzer .value {
+.loganalyzer .value,.loganalyzer .value * {
     color: #990000;
+}
+
+.loganalyzer * {
+    color: #000;
 }

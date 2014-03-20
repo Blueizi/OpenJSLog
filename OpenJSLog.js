@@ -17,6 +17,7 @@
  You should have received a copy of the GNU General Public License
  along with Foobar. If not, see <http://www.gnu.org/licenses/>.
  */
+
 /**
  * This is the Object you want to stringify to analyze it with the Analyzer.
  * @type {{data: Array, timestamps: Array}}

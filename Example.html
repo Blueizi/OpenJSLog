@@ -30,7 +30,7 @@
         <td><textarea cols="80" name="input" id="jsonInput" rows="10"
                       wrap="off"></textarea></td>
         <td>
-            Examples:
+            Examples:<br />
             <textarea cols="80" id="examples" rows="9" wrap="off" readonly>
 {
     "data": [
@@ -75,6 +75,8 @@
         onclick="OJSLanalyze(JSON.parse(document.getElementById('jsonInput').value), document.getElementById('jsonOutput'));">
     Analyze
 </button>
+<button onclick="ExpandAll(document.getElementById('jsonOutput'));">Expand all</button>
+<button onclick="ReduceAll(document.getElementById('jsonOutput'));">Reduce all</button>
 <div id="jsonOutput" class="loganalyzer notLoaded">No Log loaded!</div>
 <script type="text/javascript" src="OpenJSLogAnalyzer.js"></script>
 
@@ -93,6 +95,7 @@
         });
     }
     document.getElementById('validJSON').innerHTML = verifyOJSL(document.getElementById('jsonInput').value, true) ? "Valid" : "Invalid";
+    OJSLanalyze(JSON.parse(document.getElementById('jsonInput').value), document.getElementById('jsonOutput'));
 </script>
 </body>
 </html>

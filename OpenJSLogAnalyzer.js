@@ -76,6 +76,24 @@ function buildList(parentObject, parentElement) {
     parentElement.appendChild(rParent);
 }
 
+function ExpandAll(element){
+    for(var index = 0; index < element.childElementCount; index++){
+        try {
+            element.childNodes.item(index).classList.add('expanded');
+            ExpandAll(element.childNodes.item(index));
+        } catch (err){}
+    }
+}
+
+function ReduceAll(element){
+    for(var index = 0; index < element.childElementCount; index++){
+        try {
+            element.childNodes.item(index).classList.remove('expanded');
+            ReduceAll(element.childNodes.item(index));
+        } catch (err){}
+    }
+}
+
 /**
  * OJSLanalyze: Builds the complete minimizeable List for a browsable LogBuffer.
  * @param object    The (parsed JSON) Object to Analyze. (Can also be the LogBuffer directly)
@@ -97,7 +115,7 @@ function OJSLanalyze(object, element) {
     //Add listeners to the minizizeable objects.
     element.addEventListener('click', function (e) {
         if (e.target.classList.contains('parent')) {
-            e.target.classList.toggle('expanded')
+            e.target.classList.toggle('expanded');
         }
     });
 
