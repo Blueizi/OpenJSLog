@@ -1,1 +1,98 @@
-<!DOCTYPE html><html><head>    <!--     OpenJSLogAnalyzer    Copyright (C) 2014 Hendrik 'Xendo' Meyer    This file is part of OpenJSLog    OpenJSLog is free software: you can redistribute it and/or modify    it under the terms of the GNU General Public License as published by    the Free Software Foundation, either version 2 of the License, or    (at your option) any later version.    OpenJSLog is distributed in the hope that it will be useful,    but WITHOUT ANY WARRANTY; without even the implied warranty of    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the    GNU General Public License for more details.    You should have received a copy of the GNU General Public License    along with Foobar. If not, see <http://www.gnu.org/licenses/>.    -->    <title>OpenJSLog Analyzer Example page</title>    <meta charset="UTF-8">    <link rel="stylesheet" href="assets/OpenJSLogAnalyzer.css"></head><body><textarea name="input" id="jsonInput"></textarea><button onclick="OJSLanalyze(JSON.parse(document.getElementById('jsonInput').value), document.getElementById('jsonOutput'));">    Analyze</button><div id="jsonOutput"></div><script type="text/javascript" src="OpenJSLogAnalyzer.js"></script></body></html>
+<!DOCTYPE html>
+<html>
+<head>
+    <!--
+    OpenJSLogAnalyzer Example page
+    Copyright (C) 2014 Hendrik 'Xendo' Meyer
+
+    This file is part of OpenJSLog
+
+    OpenJSLog is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 2 of the License, or
+    (at your option) any later version.
+
+    OpenJSLog is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Foobar. If not, see <http://www.gnu.org/licenses/>.
+    -->
+    <title>OpenJSLog Analyzer Example page</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="assets/OpenJSLogAnalyzer.css">
+</head>
+<body>
+<table id="top">
+    <tr>
+        <td><textarea cols="80" name="input" id="jsonInput" rows="10"
+                      wrap="off"></textarea></td>
+        <td>
+            Examples:
+            <textarea cols="80" id="examples" rows="9" wrap="off" readonly>
+{
+    "data": [
+        "Selftests passed!",
+        "User is Logged in.",
+        "{\"id\":\"1\",\"test\":\"JSON formatted text does not get parsed.\"}",
+        {
+            "id": 1,
+            "user": "j.doe"
+        },
+        [
+            {
+                "key": "value"
+            },
+            {
+                "id": 1,
+                "user": "j.doe"
+            },
+            [
+                "Array in Object not a problem aswell!",
+                    {
+                    "not even": "another Object inside"
+                }
+            ],
+            "A string inside of an Object also is no problem"
+        ]
+    ],
+    "timestamps": [
+        1395264360755,
+        1395264360756,
+        1395264360758,
+        1395264363841,
+        1395264363841
+    ]
+}
+            </textarea>
+        </td>
+    </tr>
+</table>
+<div>Current input: <span id="validJSON">Invalid</span></div>
+<button id="btnAnalyze"
+        onclick="OJSLanalyze(JSON.parse(document.getElementById('jsonInput').value), document.getElementById('jsonOutput'));">
+    Analyze
+</button>
+<div id="jsonOutput" class="loganalyzer notLoaded">No Log loaded!</div>
+<script type="text/javascript" src="OpenJSLogAnalyzer.js"></script>
+
+<!-- Inline OJSL validator -->
+<script type="text/javascript">
+    var area = document.getElementById("jsonInput");
+    if (area.addEventListener) {
+        area.addEventListener('input', function() {
+            console.log("Input changed");
+            document.getElementById('validJSON').innerHTML = verifyOJSL(document.getElementById('jsonInput').value, true) ? "Valid" : "Invalid";
+        }, false);
+    } else if (area.attachEvent) {
+        area.attachEvent('onpropertychange', function() {
+            console.log("Input changed");
+            document.getElementById('validJSON').innerHTML = verifyOJSL(document.getElementById('jsonInput').value, true) ? "Valid" : "Invalid";
+        });
+    }
+    document.getElementById('validJSON').innerHTML = verifyOJSL(document.getElementById('jsonInput').value, true) ? "Valid" : "Invalid";
+</script>
+</body>
+</html>

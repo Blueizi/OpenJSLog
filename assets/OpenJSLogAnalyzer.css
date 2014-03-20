@@ -1,1 +1,127 @@
-@charset "UTF-8";/** OpenJSLogAnalyzer Copyright (C) 2014 Hendrik 'Xendo' Meyer This file is part of OpenJSLog OpenJSLog is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later version. OpenJSLog is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with Foobar. If not, see <http://www.gnu.org/licenses/>. */.loganalyzer ul {    list-style-type: none;    margin: 0px;    font-size: 18px;}.loganalyzer li {    position: relative;    line-height: 20px;}.loganalyzer li:before {    content: '\2022';    position: absolute;    left: -15px;    width: 100%;}.loganalyzer li.parent {    cursor: pointer;}.loganalyzer li.parent:before {    content: '\25B6';    font-size: .5em;    display: block;    cursor: pointer;}.loganalyzer li.parent.expanded:before {    content: '\25BC';}.loganalyzer li.parent > ul {    display: none;    cursor: auto;}.loganalyzer li.parent.expanded > ul {    display: block;}/* Theming */.loganalyzer {    background: #eeeeee;    padding: 20px;    border: 1px solid #cccccc;}.loganalyzer .object {    color: #000000;}.loganalyzer .array {    color: #000099;}.loganalyzer .string {    color: #009900;}.loganalyzer .key {    color: #334D5C;}.loganalyzer .value {    color: #990000;}
+@charset "UTF-8";
+/**
+ OpenJSLogAnalyzer Stylesheet
+ Copyright (C) 2014 Hendrik 'Xendo' Meyer
+
+ This file is part of OpenJSLog
+
+ OpenJSLog is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 2 of the License, or
+ (at your option) any later version.
+
+ OpenJSLog is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with Foobar. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+* {
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    font-size: 10pt;
+}
+
+#jsonInput {
+    background: #fff;
+    padding: 5px 5px;
+    border: 1px solid #ccc;
+    resize: none;
+}
+
+#examples {
+    background: #ddd;
+    padding: 5px 5px;
+    border: 1px solid #ccc;
+    resize: none;
+}
+
+.notLoaded {
+    padding: 20px 20px !important;
+}
+
+.loganalyzer ul {
+    list-style-type: none;
+    margin: 0;
+    font-size: 18px;
+}
+
+.loganalyzer li {
+    position: relative;
+    line-height: 20px;
+}
+
+.loganalyzer .closing {
+    display: inline;
+}
+
+.loganalyzer .closing:before {
+    content: '';
+    font-size: 0;
+    display: inline;
+    cursor: pointer;
+}
+
+.loganalyzer li:before {
+    content: '\2022';
+    position: absolute;
+    left: -15px;
+    width: 100%;
+}
+
+.loganalyzer li.parent {
+    cursor: pointer;
+}
+
+.loganalyzer li.parent:before {
+    content: '\25B6';
+    font-size: .8em;
+    display: block;
+    cursor: pointer;
+}
+
+.loganalyzer li.parent.expanded:before {
+    content: '\25BC';
+}
+
+.loganalyzer li.parent > ul {
+    display: none;
+    cursor: auto;
+}
+
+.loganalyzer li.parent.expanded > ul {
+    display: block;
+}
+
+/* Theming */
+.loganalyzer {
+    background: #eee;
+    padding: 20px 0;
+    border: 1px solid #ccc;
+}
+
+.loganalyzer .object {
+    color: #00cccc;
+}
+
+.loganalyzer .array {
+    color: #5555ff;
+}
+
+.loganalyzer .string {
+    color: #009900;
+}
+
+.loganalyzer .number {
+    color: #0000ff;
+}
+
+.loganalyzer .key {
+    color: #334D5C;
+}
+
+.loganalyzer .value {
+    color: #990000;
+}
