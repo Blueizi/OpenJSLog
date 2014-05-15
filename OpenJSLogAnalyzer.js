@@ -138,6 +138,12 @@ function OJSLanalyze(object, element) {
             } else {
                 title = date.getFullYear() + "-" + pad(date.getMonth(), 2) + "-" + pad(date.getDate(), 2) + " " + pad(date.getHours(), 2) + ":" + pad(date.getMinutes(), 2) + ":" + pad(date.getSeconds(), 2) + "." + pad(date.getMilliseconds(), 3);
             }
+            //If possible, also include the function the log was initiated with
+            try {
+                var runBy = object.runBy[nodeindex];
+                title +=  " [" + runBy + "]";
+            } catch (rberr) {
+            }
             //This weired thing is the path to the "title" of the element in the DOM.
             //Just set the .innerHTML and we are golden :)
             element.childNodes[0].childNodes[nodeindex].childNodes[0].innerHTML = title;

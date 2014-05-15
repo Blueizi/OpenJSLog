@@ -22,7 +22,7 @@
  * This is the Object you want to stringify to analyze it with the Analyzer.
  * @type {{data: Array, timestamps: Array}}
  */
-var LogBuffer = {data: [], timestamps: []};
+var LogBuffer = {data: [], timestamps: [], runBy: []};
 
 /**
  * Specifies the Devmode setting.
@@ -49,9 +49,26 @@ function Log(log, force, spit, emptyAfterSpit) {
     //Create a timestamp (milliseconds since 1970-01-01, 00:00:00 UTC)
     var timestamp = new Date().getTime();
 
+    //Extract the name of the calling function.
+    var fn = null;
+    fn = arguments.callee.caller;
+    if (fn === null) {
+        fn = "NONE";
+    } else {
+        fn = fn.toString();
+        fn = fn.substr('function '.length);
+        fn = fn.substr(0, fn.indexOf('('));
+        if (fn === "") {
+            fn = "ANON";
+        } else {
+            fn += "()"
+        }
+    }
+
     //Push Data and timestamp into the LogBufer.
     LogBuffer.data.push(log);
     LogBuffer.timestamps.push(timestamp);
+    LogBuffer.runBy.push(fn);
 
     //If  'spit' is set to true output the LogBuffer to the
     //console and if 'emptyAfterSpit' is also true delete/clear
@@ -61,7 +78,7 @@ function Log(log, force, spit, emptyAfterSpit) {
             console.log(LogBuffer.data[index]);
         }
         if (emptyAfterSpit === true) {
-            LogBuffer = {data: [], timestamps: []};
+            LogBuffer = {data: [], timestamps: [], runBy: []};
         }
     }
 }
