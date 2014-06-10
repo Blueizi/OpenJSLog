@@ -39,6 +39,17 @@ OJSLdevmode = (OJSLgetCookie("OJSLdevmode") == "1");
  * @param emptyAfterSpit    Wether or not to empty the Logbuffer after outputting it.
  */
 function Log(log, force, spit, emptyAfterSpit) {
+
+    //If  'spit' is set to true output the LogBuffer to the
+    //console and if 'emptyAfterSpit' is also true delete/clear
+    //the buffer afterwards
+    if (spit === true) {
+            console.log(LogBuffer.data);
+        if (emptyAfterSpit === true) {
+            LogBuffer = {data: [], timestamps: [], runBy: []};
+        }
+    }
+
     //Force a log to console if the devmode is set
     //or the 'force'-parameter has been set to true.
     var directlog = (OJSLdevmode) ? true : force;
@@ -69,18 +80,6 @@ function Log(log, force, spit, emptyAfterSpit) {
     LogBuffer.data.push(log);
     LogBuffer.timestamps.push(timestamp);
     LogBuffer.runBy.push(fn);
-
-    //If  'spit' is set to true output the LogBuffer to the
-    //console and if 'emptyAfterSpit' is also true delete/clear
-    //the buffer afterwards
-    if (spit === true) {
-        for (var index in LogBuffer) {
-            console.log(LogBuffer.data[index]);
-        }
-        if (emptyAfterSpit === true) {
-            LogBuffer = {data: [], timestamps: [], runBy: []};
-        }
-    }
 }
 
 /**
