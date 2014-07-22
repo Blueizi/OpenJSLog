@@ -132,6 +132,10 @@
     color: #990000;
 }
 
+.loganalyzer .group {
+    color: #FF00EE;
+}
+
 .loganalyzer * {
     color: #000;
 }

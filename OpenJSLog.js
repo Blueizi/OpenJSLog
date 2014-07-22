@@ -44,7 +44,21 @@ function Log(log, force, spit, emptyAfterSpit) {
     //console and if 'emptyAfterSpit' is also true delete/clear
     //the buffer afterwards
     if (spit === true) {
-            console.log(LogBuffer.data);
+        for (var key in LogBuffer.data) {
+            if (LogBuffer.data[key].ojslGroup) {
+                if (LogBuffer.data[key].name) {
+                    if (LogBuffer.data[key].collapsed) {
+                        console.groupCollapsed(LogBuffer.data[key].name);
+                    } else {
+                        console.group(LogBuffer.data[key].name);
+                    }
+                } else if (LogBuffer.data[key].endGroup === true) {
+                    console.groupEnd();
+                }
+            } else {
+                console.log(LogBuffer.data[key]);
+            }
+        }
         if (emptyAfterSpit === true) {
             LogBuffer = {data: [], timestamps: [], runBy: []};
         }
@@ -53,6 +67,7 @@ function Log(log, force, spit, emptyAfterSpit) {
     //Force a log to console if the devmode is set
     //or the 'force'-parameter has been set to true.
     var directlog = (OJSLdevmode) ? true : force;
+    directlog = (log.ojslGroup) ? false : directlog;
     if (directlog) {
         console.log(log);
     }
@@ -122,4 +137,27 @@ function OJSLsetDevmode(value) {
         OJSLsetCookie("OJSLdevmode", "0", 36500);
         OJSLdevmode = false;
     }
+}
+
+/**
+ * OJSLGroup: Marks the beginning of a group of logs
+ * @param groupName The name of the group
+ * @param collapsed Collapse the Group?
+ */
+function OJSLGroup(groupName, collapsed){
+    if(collapsed){
+        Log({ojslGroup: true, name: groupName, collapsed: true});
+        console.groupCollapsed(groupName);
+    }else {
+        Log({ojslGroup: true, name: groupName});
+        console.group(groupName);
+    }
+}
+
+/**
+ * OJSLGroupEnd: Marks the end of a group of logs
+ */
+function OJSLGroupEnd(){
+    Log({ojslGroup: true, endGroup: true});
+    console.groupEnd();
 }

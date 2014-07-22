@@ -43,34 +43,48 @@ function buildList(parentObject, parentElement) {
 
     //append children to parent
     for (var key in parentObject) {
-        rEl = document.createElement('li');
+        if (parentObject[key] !== null) {
+            rEl = document.createElement('li');
 
-        //if the child is a Object/Array it needs to be handled
-        //different to map it's possible children aswell
-        if (typeof parentObject[key] == "object") {
-            //If it is an Array set true, otherwhise false
-            var isArray = parentObject[key] instanceof Array;
-            rEl.className = isArray ? 'parent array' : 'parent'; //Set up some styling
-            //Prefix with the Type of Object (Object|Array) and it's corresponding indicator ({|[)
-            //'key' is the key of the Object. If it is a direct child of 'data' this will get replaced with the timestamp.
-            rEl.innerHTML = '<span class="key">' + key + '</span>: ' + ((isArray === true) ? ('[Array] [') : ('[Object] {'));
-            //Do all the same stuff again for the Object's children. Recursion FTW!
-            buildList(parentObject[key], rEl);
-            //Add the closing parentheses:
-            closingparantheses = (document.createElement('li'));
-            closingparantheses.className = "closing " + (isArray ? 'array' : 'object');
-            closingparantheses.innerHTML = isArray ? ']' : '}';
-            rEl.appendChild(closingparantheses);
-        } else {
-            //Prefix with the Type (e.g. "[String]")
-            //'key' is the key of the Object. If it is a direct child of 'data' this will get replaced with the timestamp.
-            rEl.innerHTML = '<span class="key">' + key + '</span>: [' + typeof parentObject[key] + '] <span class="value">' + parentObject[key] + '</span>';
+            if (parentObject[key].ojslGroup === true) {
+                if (parentObject[key].name) {
+                    rEl.innerHTML = 'Group "' + parentObject[key].name + '"';
+                } else if (parentObject[key].endGroup === true) {
+                    rEl.innerHTML = 'End of Group';
+                }
+                rEl.className += "group";
+            } else {
+                //if the child is a Object/Array it needs to be handled
+                //different to map it's possible children aswell
+                if (typeof parentObject[key] == "object") {
+
+
+                    //If it is an Array set true, otherwhise false
+                    var isArray = parentObject[key] instanceof Array;
+                    rEl.className = isArray ? 'parent array' : 'parent'; //Set up some styling
+                    //Prefix with the Type of Object (Object|Array) and it's corresponding indicator ({|[)
+                    //'key' is the key of the Object. If it is a direct child of 'data' this will get replaced with the timestamp.
+                    rEl.innerHTML = '<span class="key">' + key + '</span>: ' + ((isArray === true) ? ('[Array] [') : ('[Object] {'));
+                    //Do all the same stuff again for the Object's children. Recursion FTW!
+                    buildList(parentObject[key], rEl);
+                    //Add the closing parentheses:
+                    closingparantheses = (document.createElement('li'));
+                    closingparantheses.className = "closing " + (isArray ? 'array' : 'object');
+                    closingparantheses.innerHTML = isArray ? ']' : '}';
+                    rEl.appendChild(closingparantheses);
+
+
+                } else {
+                    //Prefix with the Type (e.g. "[String]")
+                    //'key' is the key of the Object. If it is a direct child of 'data' this will get replaced with the timestamp.
+                    rEl.innerHTML = '<span class="key">' + key + '</span>: [' + typeof parentObject[key] + '] <span class="value">' + parentObject[key] + '</span>';
+                }
+                //add the lowercase type as a css-class to be able to style each type individually.
+                rEl.className += " " + (typeof parentObject[key]).toLowerCase();
+            }
+            //finally append the new element to it's parent (the new unordered list).
+            rParent.appendChild(rEl);
         }
-        //add the lowercase type as a css-class to be able to style each type individually.
-        rEl.className += " " + (typeof parentObject[key]).toLowerCase();
-
-        //finally append the new element to it's parent (the new unordered list).
-        rParent.appendChild(rEl);
     }
     //append the new unordered list to it's parent (the given 'parentElement').
     parentElement.appendChild(rParent);
