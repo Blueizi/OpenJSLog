@@ -147,10 +147,10 @@ function OJSLsetDevmode(value) {
 function OJSLGroup(groupName, collapsed){
     if(collapsed){
         Log({ojslGroup: true, name: groupName, collapsed: true});
-        console.groupCollapsed(groupName);
+        if (OJSLdevmode) console.groupCollapsed(groupName);
     }else {
         Log({ojslGroup: true, name: groupName});
-        console.group(groupName);
+        if (OJSLdevmode) console.group(groupName);
     }
 }
 
