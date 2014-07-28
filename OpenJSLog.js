@@ -67,8 +67,10 @@ function Log(log, force, spit, emptyAfterSpit) {
     //Force a log to console if the devmode is set
     //or the 'force'-parameter has been set to true.
     var directlog = (OJSLdevmode) ? true : force;
-    if((log !== null) && (log.hasOwnProperty('ojslGroup'))){
-        directog = false;
+    if((log !== null || log !== undefined)){
+        if(log.hasOwnProperty('ojslGroup')) {
+            directog = false;
+        }
     }
 
     if (directlog) {
