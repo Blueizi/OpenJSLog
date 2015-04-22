@@ -1,56 +1,115 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en-us">
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="OpenJSLog : OpenJSLog is a sophisticated Logging utility with Timestamping and Log-Analysis.">
-
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>OpenJSLog</title>
+    <meta charset="UTF-8">
+    <title>OpenJSLog by butterkekstorte</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
-
   <body>
+    <section class="page-header">
+      <h1 class="project-name">OpenJSLog</h1>
+      <h2 class="project-tagline">OpenJSLog is a sophisticated Logging utility with Timestamping and Log-Analysis.</h2>
+      <a href="https://github.com/butterkekstorte/OpenJSLog" class="btn">View on GitHub</a>
+      <a href="https://github.com/butterkekstorte/OpenJSLog/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/butterkekstorte/OpenJSLog/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/butterkekstorte/OpenJSLog">View on GitHub</a>
-
-          <h1 id="project_title">OpenJSLog</h1>
-          <h2 id="project_tagline">OpenJSLog is a sophisticated Logging utility with Timestamping and Log-Analysis.</h2>
-
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/butterkekstorte/OpenJSLog/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/butterkekstorte/OpenJSLog/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h1>
-<a name="openjslog" class="anchor" href="#openjslog"><span class="octicon octicon-link"></span></a>OpenJSLog</h1>
+    <section class="main-content">
+      <h1>
+<a id="openjslog" class="anchor" href="#openjslog" aria-hidden="true"><span class="octicon octicon-link"></span></a>OpenJSLog</h1>
 
 <p>OpenJSLog is a sophisticated Logging utility with Timestamping and Log-Analysis.</p>
 
 <p>It is based on JSON-Explorer by kadjar: <a href="https://github.com/kadjar/json-explorer">https://github.com/kadjar/json-explorer</a></p>
 
-<p>This work is licensed under the GPLv2: <a href="http://choosealicense.com/licenses/gpl-v2/">http://choosealicense.com/licenses/gpl-v2/</a></p>
-      </section>
-    </div>
+<p><strong>Now with Node.JS support &amp; MIT Licensed!</strong></p>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">OpenJSLog maintained by <a href="https://github.com/butterkekstorte">butterkekstorte</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<ul>
+<li>
+<p>Node.JS:</p>
+
+<p>A simple <code>npm install openjslog</code> within you commandline (or adding a dependency to <code>openjslog</code> in your <code>package.json</code> followeg by a simple <code>npm install</code>) and a <code>var Log = require('openjslog');</code> in your application suffices to be able to use <code>Log(myAwesomeVariable);</code></p>
+
+<p>Available methods: <em>(<code>Log</code> will be the name of your variable!)</em></p>
+
+<ul>
+<li><code>Log(log, force, spit, emptyAfterSpit)</code></li>
+<li><code>Log.Group(groupName, collapsed)</code></li>
+<li><code>Log.GroupEnd()</code></li>
+<li><code>Log.toString()</code></li>
+</ul>
+</li>
+<li>
+<p>Browser:</p>
+
+<p>Simply include the file somewhere in your html and use one of the following available methods:</p>
+
+<ul>
+<li><code>Log(log, force, spit, emptyAfterSpit)</code></li>
+<li><code>Log.group(groupName, collapsed)</code></li>
+<li><code>Log.groupEnd()</code></li>
+<li><code>Log.toString()</code></li>
+<li><code>Log.setDevmode(value)</code></li>
+</ul>
+</li>
+</ul>
+
+<h2>
+<a id="code-docs" class="anchor" href="#code-docs" aria-hidden="true"><span class="octicon octicon-link"></span></a>Code-docs:</h2>
+
+<p><code>Log(log, force, spit, emptyAfterSpit)</code>:</p>
+
+<pre lang="text"><code>Log: Logs the given input with a timestamp
+
+  @param log               The Object to log.
+  @param force             Whether or not to force a log to console.
+  @param spit              Output the Logbuffer to the Console
+  @param emptyAfterSpit    Wether or not to empty the Logbuffer after outputting it.
+</code></pre>
+
+<p><code>Log.setDevmode(value)</code>: (<strong>Unavailable in Node.JS</strong>, legacy available via <code>OJSLsetDevmode(...)</code>)</p>
+
+<pre lang="text"><code>Log.setDevmode: Sets the devmode to either true or false
+
+  @param value            true or false
+</code></pre>
+
+<p><code>Log.group(groupName, collapsed)</code>: (legacy available via <code>OJSLGroup(...)</code>)</p>
+
+<pre lang="text"><code>Log.group: Marks the beginning of a group of logs
+
+  @param groupName       The name of the group
+  @param collapsed       Collapse the Group?
+</code></pre>
+
+<p><code>Log.groupEnd()</code>: (legacy available via <code>OJSLGroupEnd()</code>)</p>
+
+<pre lang="text"><code>Log.group: Marks the end of a group of logs
+</code></pre>
+
+<p><code>Log.toString()</code>:</p>
+
+<pre lang="text"><code>Log.toString: Return the contents of the LogBuffer as JSON
+
+  @returns string        Contents of the LogBuffer as JSON
+</code></pre>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/butterkekstorte/OpenJSLog">OpenJSLog</a> is maintained by <a href="https://github.com/butterkekstorte">butterkekstorte</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
-    </div>
 
-    
+    </section>
 
+  
   </body>
 </html>
+
