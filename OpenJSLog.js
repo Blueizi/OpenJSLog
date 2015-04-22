@@ -1,21 +1,25 @@
 /**
- OpenJSLog
- Copyright (C) 2014 Hendrik 'Xendo' Meyer
+The MIT License (MIT)
 
- This file is part of OpenJSLog
+Copyright (c) 2015 OpenJSLog Contributors
 
- OpenJSLog is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 2 of the License, or
- (at your option) any later version.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
- OpenJSLog is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- GNU General Public License for more details.
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
 
- You should have received a copy of the GNU General Public License
- along with OpenJSLog. If not, see <http://www.gnu.org/licenses/>.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
  */
 
 /**
@@ -28,8 +32,8 @@ var isNode = (typeof window === 'undefined');
 if (isNode) {	
 	module.exports = exports = Log;
 	module.exports.Log = exports.Log = Log;
-	module.exports.OJSLGroup = exports.OJSLGroup = OJSLGroup;
-	module.exports.OJSLGroupEnd = exports.OJSLGroupEnd = OJSLGroupEnd;
+	module.exports.group = exports.group = Log.group;
+	module.exports.groupEnd = exports.group = Log.groupEnd;
 }
 
 /**
@@ -39,7 +43,7 @@ if (isNode) {
 OJSLdevmode =  isNode ? true : OJSLgetCookie("OJSLdevmode") == "1";
 
 /**
- * OpenJSLog: Logs the given input with a timestamp
+ * Log: Logs the given input with a timestamp
  *
  * @param log               The Object to log.
  * @param force             Whether or not to force a log to console.
@@ -56,12 +60,12 @@ function Log(log, force, spit, emptyAfterSpit) {
             if (LogBuffer.data[key].ojslGroup) {
                 if (LogBuffer.data[key].name) {
                     if (LogBuffer.data[key].collapsed) {
-                        console.groupCollapsed(LogBuffer.data[key].name);
+                        if (!isNode) console.groupCollapsed(LogBuffer.data[key].name);
                     } else {
-                        console.group(LogBuffer.data[key].name);
+                        if (!isNode) console.group(LogBuffer.data[key].name);
                     }
                 } else if (LogBuffer.data[key].endGroup === true) {
-                    console.groupEnd();
+                    if (!isNode) console.groupEnd();
                 }
             } else {
                 console.log(LogBuffer.runBy[key], LogBuffer.data[key]);
@@ -110,6 +114,11 @@ function Log(log, force, spit, emptyAfterSpit) {
     LogBuffer.runBy.push(fn);
 }
 
+/**
+ * Log.toString: Return the contents of the LogBuffer as JSON
+ *
+ * @returns {string}        Contents of the LogBuffer as JSON
+*/
 Log.toString = function(){
 	return JSON.stringify(LogBuffer);
 }
@@ -147,10 +156,10 @@ function OJSLgetCookie(cname) {
 }
 
 /**
- * setDevmode: Sets the devmode to either true or false
+ * Log.setDevmode: Sets the devmode to either true or false
  * @param value
  */
-function OJSLsetDevmode(value) {
+Log.setDevmode = function(value) {
 	if(!isNode){
 		if (value === true) {
 			OJSLsetCookie("OJSLdevmode", "1", 36500);
@@ -163,11 +172,11 @@ function OJSLsetDevmode(value) {
 }
 
 /**
- * OJSLGroup: Marks the beginning of a group of logs
+ * Log.group: Marks the beginning of a group of logs
  * @param groupName The name of the group
  * @param collapsed Collapse the Group?
  */
-function OJSLGroup(groupName, collapsed){
+Log.group = function(groupName, collapsed){
     if(collapsed){
         Log({ojslGroup: true, name: groupName, collapsed: true});
         if (OJSLdevmode && !isNode) console.groupCollapsed(groupName);
@@ -178,11 +187,16 @@ function OJSLGroup(groupName, collapsed){
 }
 
 /**
- * OJSLGroupEnd: Marks the end of a group of logs
+ * Log.groupEnd: Marks the end of a group of logs
  */
-function OJSLGroupEnd(){
+Log.groupEnd = function(){
     Log({ojslGroup: true, endGroup: true});
     if(!isNode){
 		console.groupEnd();
 	}
 }
+
+//Legacy fallbacks:
+var OJSLGroup = Log.group,
+    OJSLGroupEnd = Log.groupEnd,
+    OJSLsetDevmode = Log.setDevmode;

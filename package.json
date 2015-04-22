@@ -1,6 +1,6 @@
 {
   "name": "openjslog",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "OpenJSLog is a sophisticated Logging utility with Timestamping and Log-Analysis",
   "author": "Hendrik 'Xendo Meyer' <mail@xendo.red>",
   "contributors": [{
@@ -23,5 +23,5 @@
   "preferGlobal": true,
   "private": false,
   "analyze": true,
-  "license": "GPLv2"
+  "license": "MIT"
 }
