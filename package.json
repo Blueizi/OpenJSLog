@@ -1,0 +1,27 @@
+{
+  "name": "openjslog",
+  "version": "0.1.0",
+  "description": "OpenJSLog is a sophisticated Logging utility with Timestamping and Log-Analysis",
+  "author": "Hendrik 'Xendo Meyer' <mail@xendo.red>",
+  "contributors": [{
+  "name": "Hendrik 'Xendo Meyer",
+  "email": "mail@xendo.red"
+}],
+  "main": "OpenJSLog.js",
+  "repository": {
+  "type": "git",
+  "url": "https://github.com/butterkekstorte/OpenJSLog"
+},
+  "bugs": {
+  "url": "https://github.com/butterkekstorte/OpenJSLog/issues"
+},
+  "keywords": [
+  "OpenJSLog",
+  "logging",
+  "log"
+],
+  "preferGlobal": true,
+  "private": false,
+  "analyze": true,
+  "license": "GPLv2"
+}

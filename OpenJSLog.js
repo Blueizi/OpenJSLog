@@ -15,7 +15,7 @@
  GNU General Public License for more details.
 
  You should have received a copy of the GNU General Public License
- along with Foobar. If not, see <http://www.gnu.org/licenses/>.
+ along with OpenJSLog. If not, see <http://www.gnu.org/licenses/>.
  */
 
 /**
@@ -23,12 +23,20 @@
  * @type {{data: Array, timestamps: Array}}
  */
 var LogBuffer = {data: [], timestamps: [], runBy: []};
+var isNode = (typeof window === 'undefined');
+
+if (isNode) {	
+	module.exports = exports = Log;
+	module.exports.Log = exports.Log = Log;
+	module.exports.OJSLGroup = exports.OJSLGroup = OJSLGroup;
+	module.exports.OJSLGroupEnd = exports.OJSLGroupEnd = OJSLGroupEnd;
+}
 
 /**
  * Specifies the Devmode setting.
  * @type {boolean}
  */
-OJSLdevmode = (OJSLgetCookie("OJSLdevmode") == "1");
+OJSLdevmode =  isNode ? true : OJSLgetCookie("OJSLdevmode") == "1";
 
 /**
  * OpenJSLog: Logs the given input with a timestamp
@@ -56,7 +64,7 @@ function Log(log, force, spit, emptyAfterSpit) {
                     console.groupEnd();
                 }
             } else {
-                console.log(LogBuffer.data[key]);
+                console.log(LogBuffer.runBy[key], LogBuffer.data[key]);
             }
         }
         if (emptyAfterSpit === true) {
@@ -71,10 +79,6 @@ function Log(log, force, spit, emptyAfterSpit) {
         if(log.hasOwnProperty('ojslGroup')) {
             directog = false;
         }
-    }
-
-    if (directlog) {
-        console.log(log);
     }
 
     //Create a timestamp (milliseconds since 1970-01-01, 00:00:00 UTC)
@@ -96,10 +100,18 @@ function Log(log, force, spit, emptyAfterSpit) {
         }
     }
 
+    if (directlog) {
+        console.log(fn, log);
+    }
+    
     //Push Data and timestamp into the LogBufer.
     LogBuffer.data.push(log);
     LogBuffer.timestamps.push(timestamp);
     LogBuffer.runBy.push(fn);
+}
+
+Log.toString = function(){
+	return JSON.stringify(LogBuffer);
 }
 
 /**
@@ -109,10 +121,12 @@ function Log(log, force, spit, emptyAfterSpit) {
  * @param exdays    The expirationdate in days(!)
  */
 function OJSLsetCookie(cname, cvalue, exdays) {
-    var d = new Date();
-    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-    var expires = "expires=" + d.toGMTString();
-    document.cookie = cname + "=" + cvalue + "; " + expires;
+	if(!isNode){
+		var d = new Date();
+		d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+		var expires = "expires=" + d.toGMTString();
+		document.cookie = cname + "=" + cvalue + "; " + expires;
+	}
 }
 
 /**
@@ -121,13 +135,15 @@ function OJSLsetCookie(cname, cvalue, exdays) {
  * @returns {string}    The value of the cookie
  */
 function OJSLgetCookie(cname) {
-    var name = cname + "=";
-    var ca = document.cookie.split(';');
-    for (var i = 0; i < ca.length; i++) {
-        var c = ca[i].trim();
-        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
-    }
-    return "";
+	if(!isNode){
+		var name = cname + "=";
+		var ca = document.cookie.split(';');
+		for (var i = 0; i < ca.length; i++) {
+			var c = ca[i].trim();
+			if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+		}
+		return "";
+	} else { return "1"; }
 }
 
 /**
@@ -135,13 +151,15 @@ function OJSLgetCookie(cname) {
  * @param value
  */
 function OJSLsetDevmode(value) {
-    if (value === true) {
-        OJSLsetCookie("OJSLdevmode", "1", 36500);
-        OJSLdevmode = true;
-    } else {
-        OJSLsetCookie("OJSLdevmode", "0", 36500);
-        OJSLdevmode = false;
-    }
+	if(!isNode){
+		if (value === true) {
+			OJSLsetCookie("OJSLdevmode", "1", 36500);
+			OJSLdevmode = true;
+		} else {
+			OJSLsetCookie("OJSLdevmode", "0", 36500);
+			OJSLdevmode = false;
+		}
+	}
 }
 
 /**
@@ -152,10 +170,10 @@ function OJSLsetDevmode(value) {
 function OJSLGroup(groupName, collapsed){
     if(collapsed){
         Log({ojslGroup: true, name: groupName, collapsed: true});
-        if (OJSLdevmode) console.groupCollapsed(groupName);
+        if (OJSLdevmode && !isNode) console.groupCollapsed(groupName);
     }else {
         Log({ojslGroup: true, name: groupName});
-        if (OJSLdevmode) console.group(groupName);
+        if (OJSLdevmode && !isNode) console.group(groupName);
     }
 }
 
@@ -164,5 +182,7 @@ function OJSLGroup(groupName, collapsed){
  */
 function OJSLGroupEnd(){
     Log({ojslGroup: true, endGroup: true});
-    console.groupEnd();
+    if(!isNode){
+		console.groupEnd();
+	}
 }
