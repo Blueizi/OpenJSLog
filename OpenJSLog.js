@@ -27,10 +27,10 @@ var isNode = (typeof window === 'undefined');
 
 if (isNode) {	
 	module.exports = exports = Log;
+	module.exports.Log = exports.Log = Log;
+	module.exports.OJSLGroup = exports.OJSLGroup = OJSLGroup;
+	module.exports.OJSLGroupEnd = exports.OJSLGroupEnd = OJSLGroupEnd;
 }
-
-module.exports.OJSLGroup = exports.OJSLGroup = OJSLGroup;
-module.exports.OJSLGroupEnd = exports.OJSLGroupEnd = OJSLGroupEnd;
 
 /**
  * Specifies the Devmode setting.
