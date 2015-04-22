@@ -56,7 +56,7 @@ function Log(log, force, spit, emptyAfterSpit) {
                     console.groupEnd();
                 }
             } else {
-                console.log(LogBuffer.data[key]);
+                console.log(LogBuffer.runBy[key], LogBuffer.data[key]);
             }
         }
         if (emptyAfterSpit === true) {
@@ -71,10 +71,6 @@ function Log(log, force, spit, emptyAfterSpit) {
         if(log.hasOwnProperty('ojslGroup')) {
             directog = false;
         }
-    }
-
-    if (directlog) {
-        console.log(log);
     }
 
     //Create a timestamp (milliseconds since 1970-01-01, 00:00:00 UTC)
@@ -96,6 +92,10 @@ function Log(log, force, spit, emptyAfterSpit) {
         }
     }
 
+    if (directlog) {
+        console.log(fn, log);
+    }
+    
     //Push Data and timestamp into the LogBufer.
     LogBuffer.data.push(log);
     LogBuffer.timestamps.push(timestamp);
